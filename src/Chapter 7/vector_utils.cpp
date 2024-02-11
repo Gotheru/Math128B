@@ -118,6 +118,30 @@ namespace chapter_7 {
             return l_inf_norm(v - w);
         }
 
+        template <typename T>
+        std::vector<std::vector<T>> transpose(std::vector<std::vector<T>> const& A) {
+            if (A.empty()) return A;
+            std::vector<std::vector<T>> B(A[0].size(), std::vector<T>(A.size()));
+            for (int i = 0; i < int(A[0].size()); ++i) {
+                for (int j = 0; j < int(A.size()); ++j) {
+                    B[i][j] = A[j][i];
+                }
+            }
+            return B;
+        }
+
+        template <typename T>
+        std::vector<T> operator * (std::vector<std::vector<T>> const& A, std::vector<T> const& x) {
+            assert(x.size() == A[0].size());
+            std::vector<T> ans(A.size());
+            for (int i = 0; i < A.size(); ++i) {
+                for (int j = 0; j < A[0].size(); ++j) {
+                    ans[i] += A[i][j] * x[j];
+                }
+            }
+            return ans;
+        }
+
     } // namespace section_1
 
 } // namespace chapter_7

@@ -26,15 +26,20 @@ namespace chapter_7 {
         */
         template <typename T>
         std::vector<T> jacobi(int n, std::vector<std::vector<T>> A, std::vector<T> b, std::vector<T> XO, T TOL, int MAX_IT) {
+            // Check for non singular diagonal D in decomposition A = D - L - U
             for (int i = 0; i < n; ++i) assert(A[i][i] != T(0));
             for (int k = 0; k < MAX_IT; ++k) {
                 std::vector<T> x(n);
                 for (int i = 0; i < n; ++i) {
                     for (int j = 0; j < n; ++j)
-                        if (j != i) x[i] -= A[i][j] * XO[j] + b[i];
+                        if (j != i) x[i] -= A[i][j] * XO[j];
+                    x[i] += b[i];
                     x[i] /= A[i][i];
                 }
-                if (chapter_7::section_1::dist_l_inf(x, XO) < TOL) return x;
+                if (chapter_7::section_1::dist_l_inf(x, XO) < TOL) {
+                    std::cout << "Reached the solution in " << k + 1 << " iterations\n";
+                    return x;
+                }
                 else XO = x;
             }
             std::cout << "Maximum number of iterations exceeded\n";

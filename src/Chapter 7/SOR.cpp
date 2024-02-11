@@ -14,7 +14,7 @@ namespace chapter_7 {
     namespace section_4 {
         
         /**
-         * Implements the Jacobi Iterative technique to solve Ax = b given initial approximation XO
+         * SOR
          * \todo add explanation
          * \param n Number of equations and unknowns
          * \param A Coefficient matrix
@@ -34,12 +34,16 @@ namespace chapter_7 {
                     for (int j = 0; j < i; ++j)
                         x[i] -= A[i][j] * x[j];
                     for (int j = i + 1; j < n; ++j)
-                        x[i] -= A[i][j] * XO[j] + b[i];
+                        x[i] -= A[i][j] * XO[j];
+                    x[i] += b[i];
                     x[i] *= omega;
                     x[i] /= A[i][i];
                     x[i] += (T(1) - omega) * XO[i];
                 }
-                if (chapter_7::section_1::dist_l_inf(x, XO) < TOL) return x;
+                if (chapter_7::section_1::dist_l_inf(x, XO) < TOL) {
+                    std::cout << "Reached the solution in " << k + 1 << " iterations\n";
+                    return x;
+                }
                 else XO = x;
             }
             std::cout << "Maximum number of iterations exceeded\n";
