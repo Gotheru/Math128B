@@ -14,7 +14,7 @@ namespace chapter_7 {
     namespace section_6 {
         
         /**
-         * CG
+         * CG (Preconditioned)
          * \todo add explanation
          * \param n Number of equations and unknowns
          * \param A Coefficient matrix
